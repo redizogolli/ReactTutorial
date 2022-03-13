@@ -1,7 +1,7 @@
 import "./ExpenseForm.css";
 import React, { useState } from "react";
 
-const ExpenseForm = () => {
+const ExpenseForm = (props) => {
   // const [enteredTitle,setEnteredTitle] = useState('');
   // const [enteredAmount,setEnteredAmount] = useState('');
   // const [enteredDate, setEnteredDate] = useState('');
@@ -9,7 +9,7 @@ const ExpenseForm = () => {
   const [userInput, setUserInput] = useState({
     enteredTitle: "",
     enteredAmount: "",
-    entereDate: "",
+    enteredDate: "",
   });
 
   const titleChangeHandler = (event) => {
@@ -42,22 +42,22 @@ const ExpenseForm = () => {
     // setEnteredDate(event.target.value);
     // setUserInput({
     //   ...userInput,
-    //   entereDate: event.target.value,
+    //   enteredDate: event.target.value,
     // });
     setUserInput((previousState) => {
       return {
         ...previousState,
-        entereDate: event.target.value,
+        enteredDate: event.target.value,
       };
     });
   };
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log(JSON.stringify(userInput));
+    props.onSaveExpenseData(userInput);
     setUserInput({
       enteredTitle: "",
       enteredAmount: "",
-      entereDate: "",
+      enteredDate: "",
     });
   };
   return (
@@ -85,7 +85,7 @@ const ExpenseForm = () => {
           <label>Date</label>
           <input
             type="date"
-            value={userInput.entereDate}
+            value={userInput.enteredDate}
             onChange={dateChangedHandler}
           />
         </div>
