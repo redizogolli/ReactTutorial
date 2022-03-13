@@ -4,54 +4,44 @@ import Expenses from "./components/Expenses/Expenses";
 import NewExpense from "./components/NewExpenses/NewExpense";
 
 const App = () => {
-  let dummyExpenses = [
-    { id: 1, title: "Car Insurance", amount: 252, date: new Date() },
-    { id: 2, title: "Water", amount: 15, date: new Date() },
-    { id: 3, title: "Lightning", amount: 50, date: new Date() },
+  let DUMMY_EXPENSES = [
+    {
+      id: "e1",
+      title: "Toilet Paper",
+      amount: 94.12,
+      date: new Date(2022, 7, 14),
+    },
+    { id: "e2", title: "New TV", amount: 799.49, date: new Date(2021, 2, 12) },
+    {
+      id: "e3",
+      title: "Car Insurance",
+      amount: 294.67,
+      date: new Date(2021, 2, 28),
+    },
+    {
+      id: "e4",
+      title: "New Desk (Wooden)",
+      amount: 450,
+      date: new Date(2021, 5, 12),
+    },
   ];
-  const intitDate = new Date().getFullYear();
-  let year = intitDate;
-  const [expensesInfo, setExpensesInfo] = useState({
-    expenses: dummyExpenses,
-    dateFiltered: [
-      ...dummyExpenses.filter((x) => x.date.getFullYear() === intitDate),
-    ],
-  });
+  const [expenses, setExpenses] = useState(DUMMY_EXPENSES);
 
   const expenseAdded = (newExpense) => {
-    setExpensesInfo((previousState) => {
+    setExpenses((prevExpenses) => {
       const convertedExpense = {
         id: newExpense.id,
         title: newExpense.enteredTitle,
         amount: newExpense.enteredAmount,
         date: new Date(newExpense.enteredDate),
       };
-      return {
-        expenses: [convertedExpense, ...previousState.expenses],
-        dateFiltered: previousState.expenses.filter(
-          (x) => x.date.getFullYear() === year
-        ),
-      };
-    });
-  };
-  const dateFilterChanged = (selectedYear) => {
-    year = parseInt(selectedYear);
-    setExpensesInfo((previousState) => {
-      return {
-        expenses: [...previousState.expenses],
-        dateFiltered: previousState.expenses.filter(
-          (x) => x.date.getFullYear() === year
-        ),
-      };
+      return [convertedExpense, ...prevExpenses];
     });
   };
   return (
     <div>
       <NewExpense onExpenseAdded={expenseAdded} />
-      <Expenses
-        onDateFilterChanged={dateFilterChanged}
-        items={expensesInfo.dateFiltered}
-      />
+      <Expenses items={expenses} />
     </div>
   );
 };
